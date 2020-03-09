@@ -1,21 +1,14 @@
-# Copyright (c) 2015-2018, Nicolas Chauvet <kwizart@gmail.com>
+# Copyright (c) 2015-2020, Nicolas Chauvet <kwizart@gmail.com>
 # All rights reserved.
 
-%global commit0 f54766b21d216584a6839340aa1ebf81a980b235
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-
-%{!?_cuda_version_rpm:
-%global _cuda_version_rpm 6-5
-}
-
 Name:           gdrcopy
-Version:        1.4
-Release:        3%{?dist}
+Version:        2.0
+Release:        1%{?dist}
 Summary:        A fast GPU memory copy library based on NVIDIA GPUDirect RDMA technology
 
 License:        MIT
 URL:            https://github.com/NVIDIA/gdrcopy
-Source0:        %{url}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 # Should be supported on ppc64le, but no public driver yet
 ExclusiveArch:  x86_64
@@ -63,7 +56,7 @@ developing applications that use %{name}.
 
 
 %prep
-%autosetup -n %{name}-%{commit0}
+%autosetup -p1
 
 
 %build
@@ -74,11 +67,10 @@ developing applications that use %{name}.
 
 
 %install
-%make_install PREFIX=%{buildroot}%{_prefix}
 mkdir -p %{buildroot}%{_libexecdir}/%{name}
-install -pm 755 basic validate copybw %{buildroot}%{_libexecdir}/%{name}
+%make_install PREFIX=%{_prefix} DESTBIN=%{buildroot}%{_libexecdir}/%{name}
 
-chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.1*
+chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.2*
 
 
 %ldconfig_scriptlets
@@ -88,10 +80,9 @@ chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.1*
 %license LICENSE
 %doc README.md
 %dir %{_libexecdir}/%{name}
-%{_libexecdir}/%{name}/basic
 %{_libexecdir}/%{name}/copybw
-%{_libexecdir}/%{name}/validate
-%{_libdir}/libgdrapi.so.1*
+%{_libexecdir}/%{name}/sanity
+%{_libdir}/libgdrapi.so.2*
 
 %files devel
 %{_includedir}/gdrapi.h
@@ -99,6 +90,9 @@ chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.1*
 
 
 %changelog
+* Thu Feb 06 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.0-1
+- Update to 2.0
+
 * Tue Dec 18 2018 Nicolas Chauvet <kwizart@gmail.com> - 1.4-3
 - Set exec perm on library
 
