@@ -18,6 +18,7 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cuda-compiler-%{?_cuda_version_rpm}
 BuildRequires:  cuda-libraries-dev-%{?_cuda_version_rpm}
+BuildRequires:  check-devel
 
 BuildRequires:  cuda-drivers-devel
 Requires:       cuda-drivers%{_isa}
