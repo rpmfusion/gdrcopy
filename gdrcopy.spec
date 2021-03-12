@@ -5,6 +5,7 @@
 %if 0%{!?_cuda_version:1}
 %global _cuda_version 11.2
 %global _cuda_rpm_version 11-2
+%global _cuda_prefix /usr/local/cuda-%{_cuda_version}
 %endif
 
 Name:           gdrcopy
