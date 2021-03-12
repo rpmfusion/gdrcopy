@@ -23,8 +23,7 @@ ExclusiveArch:  x86_64
 #We need the cuda toolkit
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:  cuda-compiler-%{?_cuda_rpm_version}
-BuildRequires:  cuda-cudart-devel-%{?_cuda_rpm_version}
+BuildRequires:  cuda-minimal-build-%{?_cuda_rpm_version}
 BuildRequires:  cuda-driver-devel-%{?_cuda_rpm_version}
 BuildRequires:  check-devel
 
