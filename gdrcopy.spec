@@ -1,8 +1,14 @@
-# Copyright (c) 2015-2020, Nicolas Chauvet <kwizart@gmail.com>
+# Copyright (c) 2015-2021, Nicolas Chauvet <kwizart@gmail.com>
 # All rights reserved.
 
+# If _cuda_version is unset
+%if 0%{!?_cuda_version:1}
+%global _cuda_version 11.2
+%global _cuda_rpm_version 11-2
+%endif
+
 Name:           gdrcopy
-Version:        2.0
+Version:        2.2
 Release:        1%{?dist}
 Summary:        A fast GPU memory copy library based on NVIDIA GPUDirect RDMA technology
 
@@ -17,7 +23,6 @@ ExclusiveArch:  x86_64
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cuda-compiler-%{?_cuda_version_rpm}
-BuildRequires:  cuda-libraries-dev-%{?_cuda_version_rpm}
 BuildRequires:  check-devel
 
 BuildRequires:  cuda-drivers-devel
@@ -25,17 +30,7 @@ Requires:       cuda-drivers%{_isa}
 
 #Kmod handle
 Requires:       %{name}-kmod >= %{version}
-Provides:       %{name}-kmod-common >= %{version}
-
-# We need to filter libcudart
-%if (0%{?fedora} || 0%{?rhel} > 6)
-%global __requires_exclude ^libcudart.*$
-%else
-%{?filter_setup:
-%filter_from_requires /libcudart.so.*/d
-%filter_setup
-}
-%endif
+Provides:       %{name}-kmod-common = %{version}
 
 
 %description
@@ -69,7 +64,7 @@ developing applications that use %{name}.
 
 %install
 mkdir -p %{buildroot}%{_libexecdir}/%{name}
-%make_install PREFIX=%{_prefix} DESTBIN=%{buildroot}%{_libexecdir}/%{name}
+%make_install prefix=%{_prefix} libdir=%{_libdir} DESTBIN=%{buildroot}%{_libexecdir}/%{name}
 
 chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.2*
 
@@ -82,6 +77,7 @@ chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.2*
 %doc README.md
 %dir %{_libexecdir}/%{name}
 %{_libexecdir}/%{name}/copybw
+%{_libexecdir}/%{name}/copylat
 %{_libexecdir}/%{name}/sanity
 %{_libdir}/libgdrapi.so.2*
 
@@ -91,6 +87,9 @@ chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.2*
 
 
 %changelog
+* Fri Mar 12 2021 Nicolas Chauvet <kwizart@gmail.com> - 2.2-1
+- Update to 2.2
+
 * Thu Feb 06 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.0-1
 - Update to 2.0
 
