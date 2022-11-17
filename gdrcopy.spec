@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2021, Nicolas Chauvet <kwizart@gmail.com>
+# Copyright (c) 2015-2022, Nicolas Chauvet <kwizart@gmail.com>
 # All rights reserved.
 
 # If _cuda_version is unset
@@ -9,7 +9,7 @@
 %endif
 
 Name:           gdrcopy
-Version:        2.2
+Version:        2.3
 Release:        1%{?dist}
 Summary:        A fast GPU memory copy library based on NVIDIA GPUDirect RDMA technology
 
@@ -78,6 +78,7 @@ chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.2*
 %license LICENSE
 %doc README.md
 %dir %{_libexecdir}/%{name}
+%{_libexecdir}/%{name}/apiperf
 %{_libexecdir}/%{name}/copybw
 %{_libexecdir}/%{name}/copylat
 %{_libexecdir}/%{name}/sanity
@@ -89,6 +90,9 @@ chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.2*
 
 
 %changelog
+* Thu Nov 17 2022 Nicolas Chauvet <kwizart@gmail.com> - 2.3-1
+- Update to 2.3
+
 * Fri Mar 12 2021 Nicolas Chauvet <kwizart@gmail.com> - 2.2-1
 - Update to 2.2
 
