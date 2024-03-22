@@ -9,9 +9,9 @@
 %endif
 
 Name:           gdrcopy
-Version:        2.3
+Version:        2.4.1
 Release:        1%{?dist}
-Summary:        A fast GPU memory copy library based on NVIDIA GPUDirect RDMA technology
+Summary:        A low-latency GPU memory copy library based on NVIDIA GPUDirect RDMA technology
 
 License:        MIT
 URL:            https://github.com/NVIDIA/gdrcopy
@@ -82,14 +82,23 @@ chmod 0755 %{buildroot}%{_libdir}/libgdrapi.so.2*
 %{_libexecdir}/%{name}/copybw
 %{_libexecdir}/%{name}/copylat
 %{_libexecdir}/%{name}/sanity
+%{_libexecdir}/%{name}/gdrcopy_apiperf
+%{_libexecdir}/%{name}/gdrcopy_copybw
+%{_libexecdir}/%{name}/gdrcopy_copylat
+%{_libexecdir}/%{name}/gdrcopy_pplat
+%{_libexecdir}/%{name}/gdrcopy_sanity
 %{_libdir}/libgdrapi.so.2*
 
 %files devel
 %{_includedir}/gdrapi.h
+%{_includedir}/gdrconfig.h
 %{_libdir}/libgdrapi.so
 
 
 %changelog
+* Fri Mar 22 2024 Nicolas Chauvet <kwizart@gmail.com> - 2.4.1-1
+- Update to 2.4.1
+
 * Thu Nov 17 2022 Nicolas Chauvet <kwizart@gmail.com> - 2.3-1
 - Update to 2.3
 
